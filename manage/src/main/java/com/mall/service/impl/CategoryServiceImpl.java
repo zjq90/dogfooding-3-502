@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
     private RedisTemplate<String, Object> redisTemplate;
 
     private static final String REDIS_KEY_PREFIX = "category:";
-    private static final String REDIS_KEY_ALL = "{category:all}";
+    private static final String REDIS_KEY_ALL = "category:all";
     private static final long REDIS_EXPIRE_TIME = 60;
 
     @Override

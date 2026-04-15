@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.BillMapper">
+    
+    <resultMap id="BillResultMap" type="com.mall.entity.Bill">
+        <id column="id" property="id"/>
+        <result column="bill_no" property="billNo"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="bill_type" property="billType"/>
+        <result column="amount" property="amount"/>
+        <result column="bill_status" property="billStatus"/>
+        <result column="bill_date" property="billDate"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="BillResultMap">
+        SELECT b.*, u.username 
+        FROM `bill` b
+        LEFT JOIN `user` u ON b.user_id = u.id
+        WHERE b.id = #{id}
+    </select>
+
+    <select id="selectList" resultMap="BillResultMap">
+        SELECT b.*, u.username 
+        FROM `bill` b
+        LEFT JOIN `user` u ON b.user_id = u.id
+        <where>
+            <if test="billNo != null and billNo != ''">
+                AND b.bill_no LIKE CONCAT('%', #{billNo}, '%')
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                AND b.order_no LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+            <if test="billType != null">
+                AND b.bill_type = #{billType}
+            </if>
+            <if test="billStatus != null">
+                AND b.bill_status = #{billStatus}
+            </if>
+        </where>
+        ORDER BY b.create_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `bill` (bill_no, order_no, user_id, bill_type, amount, bill_status, bill_date, remark)
+        VALUES (#{billNo}, #{orderNo}, #{userId}, #{billType}, #{amount}, #{billStatus}, #{billDate}, #{remark})
+    </insert>
+
+    <update id="update">
+        UPDATE `bill`
+        <set>
+            <if test="billType != null">bill_type = #{billType},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="billStatus != null">bill_status = #{billStatus},</if>
+            <if test="billDate != null">bill_date = #{billDate},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            update_time = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM `bill` WHERE id = #{id}
+    </delete>
+</mapper>
