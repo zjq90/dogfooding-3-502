@@ -1,10 +1,11 @@
 package com.mall.service;
 
-import com.mall.entity.User;
 import com.mall.common.Result;
+import com.mall.entity.User;
 import java.util.List;
 
 public interface UserService {
+
     Result<User> login(String username, String password);
 
     Result<User> getUserById(Long id);

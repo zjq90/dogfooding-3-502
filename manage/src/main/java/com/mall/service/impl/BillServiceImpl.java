@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class BillServiceImpl implements BillService {
+
     @Autowired
     private BillMapper billMapper;
 

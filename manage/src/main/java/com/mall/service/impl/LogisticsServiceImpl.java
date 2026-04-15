@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class LogisticsServiceImpl implements LogisticsService {
+
     @Autowired
     private LogisticsMapper logisticsMapper;
 

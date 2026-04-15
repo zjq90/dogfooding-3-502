@@ -5,6 +5,7 @@ import com.mall.entity.Category;
 import java.util.List;
 
 public interface CategoryService {
+
     Result<Category> getCategoryById(Long id);
 
     Result<List<Category>> getAllCategories();

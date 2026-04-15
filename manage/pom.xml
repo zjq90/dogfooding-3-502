@@ -20,7 +20,7 @@
     </parent>
 
     <properties>
-        <java.version>8</java.version>
+        <java.version>26</java.version>
         <mybatis.version>2.2.2</mybatis.version>
         <druid.version>1.2.16</druid.version>
     </properties>
@@ -30,12 +30,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- Spring Boot Thymeleaf -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
         <!-- Spring Boot Data Redis -->

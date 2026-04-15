@@ -1,10 +1,15 @@
 package com.mall.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String orderNo;
     private Long userId;
@@ -12,14 +17,22 @@ public class Order {
     private BigDecimal totalAmount;
     private BigDecimal payAmount;
     private Integer payType;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date payTime;
+
     private Integer orderStatus;
     private String consignee;
     private String phone;
     private String address;
     private String remark;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
+
     private List<OrderItem> orderItems;
 
     public Long getId() {

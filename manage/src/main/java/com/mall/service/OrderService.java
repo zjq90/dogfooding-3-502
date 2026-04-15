@@ -5,6 +5,7 @@ import com.mall.entity.Order;
 import java.util.List;
 
 public interface OrderService {
+
     Result<Order> getOrderById(Long id);
 
     Result<Order> getOrderByOrderNo(String orderNo);
