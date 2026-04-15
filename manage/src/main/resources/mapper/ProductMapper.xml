@@ -41,6 +41,41 @@
         ORDER BY p.create_time DESC
     </select>
 
+    <select id="selectListWithPage" resultMap="ProductResultMap">
+        SELECT p.*, c.name AS category_name
+        FROM product p
+        LEFT JOIN category c ON p.category_id = c.id
+        <where>
+            <if test="name != null and name != ''">
+                AND p.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                AND p.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                AND p.status = #{status}
+            </if>
+        </where>
+        ORDER BY p.create_time DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*)
+        FROM product p
+        <where>
+            <if test="name != null and name != ''">
+                AND p.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                AND p.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                AND p.status = #{status}
+            </if>
+        </where>
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO product (name, category_id, price, original_price, stock, image, description, status)
         VALUES (#{name}, #{categoryId}, #{price}, #{originalPrice}, #{stock}, #{image}, #{description}, #{status})

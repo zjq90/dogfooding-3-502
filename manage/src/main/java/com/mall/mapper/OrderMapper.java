@@ -14,6 +14,13 @@ public interface OrderMapper {
 
     List<Order> selectList(@Param("orderNo") String orderNo, @Param("username") String username, @Param("orderStatus") Integer orderStatus);
 
+    List<Order> selectListWithPage(@Param("orderNo") String orderNo, @Param("username") String username,
+                                   @Param("orderStatus") Integer orderStatus,
+                                   @Param("offset") int offset, @Param("pageSize") int pageSize);
+
+    int selectCount(@Param("orderNo") String orderNo, @Param("username") String username,
+                    @Param("orderStatus") Integer orderStatus);
+
     int insert(Order order);
 
     int update(Order order);

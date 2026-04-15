@@ -12,6 +12,12 @@ public interface ProductMapper {
 
     List<Product> selectList(@Param("name") String name, @Param("categoryId") Long categoryId, @Param("status") Integer status);
 
+    List<Product> selectListWithPage(@Param("name") String name, @Param("categoryId") Long categoryId,
+                                     @Param("status") Integer status,
+                                     @Param("offset") int offset, @Param("pageSize") int pageSize);
+
+    int selectCount(@Param("name") String name, @Param("categoryId") Long categoryId, @Param("status") Integer status);
+
     int insert(Product product);
 
     int update(Product product);

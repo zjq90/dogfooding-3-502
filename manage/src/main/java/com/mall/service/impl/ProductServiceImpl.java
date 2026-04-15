@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -47,9 +49,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Result<List<Product>> getProductList(String name, Long categoryId, Integer status) {
-        List<Product> productList = productMapper.selectList(name, categoryId, status);
-        return Result.success(productList);
+    public Result<Map<String, Object>> getProductList(String name, Long categoryId, Integer status,
+                                                       Integer page, Integer pageSize) {
+        int offset = (page - 1) * pageSize;
+        List<Product> productList = productMapper.selectListWithPage(name, categoryId, status, offset, pageSize);
+        int total = productMapper.selectCount(name, categoryId, status);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", productList);
+        result.put("total", total);
+        result.put("page", page);
+        result.put("pageSize", pageSize);
+
+        return Result.success(result);
     }
 
     @Override

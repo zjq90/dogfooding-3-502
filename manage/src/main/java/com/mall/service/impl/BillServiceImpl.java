@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -48,9 +50,19 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public Result<List<Bill>> getBillList(String billNo, String orderNo, Integer billType, Integer billStatus) {
-        List<Bill> billList = billMapper.selectList(billNo, orderNo, billType, billStatus);
-        return Result.success(billList);
+    public Result<Map<String, Object>> getBillList(String billNo, String orderNo, Integer billType, Integer billStatus,
+                                                    Integer page, Integer pageSize) {
+        int offset = (page - 1) * pageSize;
+        List<Bill> billList = billMapper.selectListWithPage(billNo, orderNo, billType, billStatus, offset, pageSize);
+        int total = billMapper.selectCount(billNo, orderNo, billType, billStatus);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", billList);
+        result.put("total", total);
+        result.put("page", page);
+        result.put("pageSize", pageSize);
+
+        return Result.success(result);
     }
 
     @Override

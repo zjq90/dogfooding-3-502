@@ -7,7 +7,9 @@ import com.mall.service.LogisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -41,9 +43,19 @@ public class LogisticsServiceImpl implements LogisticsService {
     }
 
     @Override
-    public Result<List<Logistics>> getLogisticsList(String orderNo, Integer shippingStatus) {
-        List<Logistics> logisticsList = logisticsMapper.selectList(orderNo, shippingStatus);
-        return Result.success(logisticsList);
+    public Result<Map<String, Object>> getLogisticsList(String orderNo, Integer shippingStatus,
+                                                         Integer page, Integer pageSize) {
+        int offset = (page - 1) * pageSize;
+        List<Logistics> logisticsList = logisticsMapper.selectListWithPage(orderNo, shippingStatus, offset, pageSize);
+        int total = logisticsMapper.selectCount(orderNo, shippingStatus);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", logisticsList);
+        result.put("total", total);
+        result.put("page", page);
+        result.put("pageSize", pageSize);
+
+        return Result.success(result);
     }
 
     @Override

@@ -68,6 +68,42 @@
         ORDER BY o.create_time DESC
     </select>
 
+    <select id="selectListWithPage" resultMap="OrderResultMap">
+        SELECT o.*, u.username
+        FROM `order` o
+        LEFT JOIN `user` u ON o.user_id = u.id
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                AND o.order_no LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+            <if test="username != null and username != ''">
+                AND u.username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="orderStatus != null">
+                AND o.order_status = #{orderStatus}
+            </if>
+        </where>
+        ORDER BY o.create_time DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*)
+        FROM `order` o
+        LEFT JOIN `user` u ON o.user_id = u.id
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                AND o.order_no LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+            <if test="username != null and username != ''">
+                AND u.username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="orderStatus != null">
+                AND o.order_status = #{orderStatus}
+            </if>
+        </where>
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `order` (order_no, user_id, total_amount, pay_amount, pay_type, pay_time, 
                             order_status, consignee, phone, address, remark)

@@ -14,6 +14,11 @@ public interface UserMapper {
 
     List<User> selectList(@Param("username") String username, @Param("status") Integer status);
 
+    List<User> selectListWithPage(@Param("username") String username, @Param("status") Integer status,
+                                  @Param("offset") int offset, @Param("pageSize") int pageSize);
+
+    int selectCount(@Param("username") String username, @Param("status") Integer status);
+
     int insert(User user);
 
     int update(User user);

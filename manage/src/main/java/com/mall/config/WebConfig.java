@@ -1,30 +1,56 @@
 package com.mall.config;
 
 import com.mall.interceptor.LoginInterceptor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.io.File;
+
+/**
+ * Web配置类
+ * 配置拦截器、跨域、静态资源映射等
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    @Value("${file.upload.path:./uploads}")
-    private String uploadPath;
 
-    @Value("${file.upload.url:/uploads}")
-    private String uploadUrl;
-
+    /**
+     * 配置跨域
+     */
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(uploadUrl + "/**")
-                .addResourceLocations("file:" + uploadPath + "/");
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 
+    /**
+     * 配置登录拦截器
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/login", "/logout", "/test/**", "/css/**", "/js/**", "/fonts/**", "/favicon.ico", "/uploads/**", "/product/upload");
+                .addPathPatterns("/api/**")
+                .excludePathPatterns(
+                        "/api/auth/login",
+                        "/api/product/upload",
+                        "/uploads/**"
+                );
+    }
+
+    /**
+     * 配置静态资源映射
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 文件上传路径映射
+        String uploadPath = System.getProperty("user.dir") + File.separator + "uploads" + File.separator;
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:" + uploadPath);
     }
 }

@@ -36,6 +36,32 @@
         ORDER BY create_time DESC
     </select>
 
+    <select id="selectListWithPage" resultMap="UserResultMap">
+        SELECT * FROM `user`
+        <where>
+            <if test="username != null and username != ''">
+                AND username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*) FROM `user`
+        <where>
+            <if test="username != null and username != ''">
+                AND username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `user` (username, password, real_name, phone, email, avatar, role, status)
         VALUES (#{username}, #{password}, #{realName}, #{phone}, #{email}, #{avatar}, #{role}, #{status})

@@ -14,6 +14,11 @@ public interface LogisticsMapper {
 
     List<Logistics> selectList(@Param("orderNo") String orderNo, @Param("shippingStatus") Integer shippingStatus);
 
+    List<Logistics> selectListWithPage(@Param("orderNo") String orderNo, @Param("shippingStatus") Integer shippingStatus,
+                                        @Param("offset") int offset, @Param("pageSize") int pageSize);
+
+    int selectCount(@Param("orderNo") String orderNo, @Param("shippingStatus") Integer shippingStatus);
+
     int insert(Logistics logistics);
 
     int update(Logistics logistics);
