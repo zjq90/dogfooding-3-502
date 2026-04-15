@@ -1,8 +1,13 @@
 package com.mall.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Logistics {
+public class Logistics implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private Long orderId;
     private String orderNo;
@@ -10,7 +15,11 @@ public class Logistics {
     private String shippingNo;
     private Integer shippingStatus;
     private String trackingInfo;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     public Long getId() {

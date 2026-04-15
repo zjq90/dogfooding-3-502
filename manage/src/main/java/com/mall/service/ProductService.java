@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ProductService {
+
     Result<Product> getProductById(Long id);
 
     Result<List<Product>> getProductList(String name, Long categoryId, Integer status);

@@ -1,9 +1,14 @@
 package com.mall.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Bill {
+public class Bill implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String billNo;
     private Long orderId;
@@ -14,6 +19,8 @@ public class Bill {
     private Integer billType;
     private Integer billStatus;
     private String remark;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public Long getId() {

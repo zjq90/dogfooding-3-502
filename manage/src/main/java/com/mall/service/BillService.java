@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface BillService {
+
     Result<Bill> getBillById(Long id);
 
     Result<Bill> getBillByBillNo(String billNo);

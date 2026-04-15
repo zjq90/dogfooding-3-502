@@ -5,6 +5,7 @@ import com.mall.entity.Logistics;
 import java.util.List;
 
 public interface LogisticsService {
+
     Result<Logistics> getLogisticsById(Long id);
 
     Result<Logistics> getLogisticsByOrderId(Long orderId);

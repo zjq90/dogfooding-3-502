@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
     @Autowired
     private ProductMapper productMapper;
 
@@ -100,13 +101,11 @@ public class ProductServiceImpl implements ProductService {
             return Result.error("请选择上传文件");
         }
         
-        // 验证文件类型
         String contentType = file.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
             return Result.error("只能上传图片文件");
         }
         
-        // 验证文件大小 (10MB)
         if (file.getSize() > 10 * 1024 * 1024) {
             return Result.error("文件大小不能超过10MB");
         }
@@ -119,7 +118,6 @@ public class ProductServiceImpl implements ProductService {
             }
             String fileName = UUID.randomUUID() + extension;
             
-            // 创建上传目录（如果不存在）
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdirs();
@@ -129,7 +127,6 @@ public class ProductServiceImpl implements ProductService {
             File dest = new File(filePath);
             FileUtils.copyInputStreamToFile(file.getInputStream(), dest);
             
-            // 返回可访问的URL（相对于context-path的路径）
             String fileUrl = uploadUrl + "/" + fileName;
             return Result.success(fileUrl);
         } catch (IOException e) {
