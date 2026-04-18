@@ -58,6 +58,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- H2 Database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Druid 连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
