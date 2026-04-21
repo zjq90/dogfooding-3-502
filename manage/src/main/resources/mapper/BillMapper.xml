@@ -50,6 +50,48 @@
         ORDER BY b.create_time DESC
     </select>
 
+    <select id="selectListWithPage" resultMap="BillResultMap">
+        SELECT b.*, u.username
+        FROM bill b
+        LEFT JOIN `user` u ON b.user_id = u.id
+        <where>
+            <if test="billNo != null and billNo != ''">
+                AND b.bill_no LIKE CONCAT('%', #{billNo}, '%')
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                AND b.order_no LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+            <if test="billType != null">
+                AND b.bill_type = #{billType}
+            </if>
+            <if test="billStatus != null">
+                AND b.bill_status = #{billStatus}
+            </if>
+        </where>
+        ORDER BY b.create_time DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*)
+        FROM bill b
+        LEFT JOIN `user` u ON b.user_id = u.id
+        <where>
+            <if test="billNo != null and billNo != ''">
+                AND b.bill_no LIKE CONCAT('%', #{billNo}, '%')
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                AND b.order_no LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+            <if test="billType != null">
+                AND b.bill_type = #{billType}
+            </if>
+            <if test="billStatus != null">
+                AND b.bill_status = #{billStatus}
+            </if>
+        </where>
+    </select>
+
     <select id="selectAll" resultMap="BillResultMap">
         SELECT b.*, u.username
         FROM bill b

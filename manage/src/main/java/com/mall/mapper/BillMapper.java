@@ -12,8 +12,15 @@ public interface BillMapper {
 
     Bill selectByBillNo(@Param("billNo") String billNo);
 
-    List<Bill> selectList(@Param("billNo") String billNo, @Param("orderNo") String orderNo, 
+    List<Bill> selectList(@Param("billNo") String billNo, @Param("orderNo") String orderNo,
                           @Param("billType") Integer billType, @Param("billStatus") Integer billStatus);
+
+    List<Bill> selectListWithPage(@Param("billNo") String billNo, @Param("orderNo") String orderNo,
+                                   @Param("billType") Integer billType, @Param("billStatus") Integer billStatus,
+                                   @Param("offset") int offset, @Param("pageSize") int pageSize);
+
+    int selectCount(@Param("billNo") String billNo, @Param("orderNo") String orderNo,
+                    @Param("billType") Integer billType, @Param("billStatus") Integer billStatus);
 
     List<Bill> selectAll();
 

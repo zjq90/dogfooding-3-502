@@ -1,21 +1,67 @@
 package com.mall.service;
 
-import com.mall.entity.User;
 import com.mall.common.Result;
-import java.util.List;
+import com.mall.entity.User;
 
+import java.util.Map;
+
+/**
+ * 用户服务接口
+ * 定义用户相关的业务操作
+ */
 public interface UserService {
+
+    /**
+     * 用户登录
+     * @param username 用户名
+     * @param password 密码
+     * @return 登录结果，包含用户信息
+     */
     Result<User> login(String username, String password);
 
+    /**
+     * 根据ID获取用户信息
+     * @param id 用户ID
+     * @return 用户信息
+     */
     Result<User> getUserById(Long id);
 
-    Result<List<User>> getUserList(String username, Integer status);
+    /**
+     * 获取用户列表（带分页）
+     * @param username 用户名（模糊查询）
+     * @param status 用户状态
+     * @param page 页码
+     * @param pageSize 每页条数
+     * @return 用户列表和分页信息
+     */
+    Result<Map<String, Object>> getUserList(String username, Integer status, Integer page, Integer pageSize);
 
+    /**
+     * 新增用户
+     * @param user 用户信息
+     * @return 操作结果
+     */
     Result<String> addUser(User user);
 
+    /**
+     * 更新用户信息
+     * @param user 用户信息
+     * @return 操作结果
+     */
     Result<String> updateUser(User user);
 
+    /**
+     * 更新用户状态
+     * @param id 用户ID
+     * @param status 用户状态
+     * @return 操作结果
+     */
     Result<String> updateUserStatus(Long id, Integer status);
 
+    /**
+     * 删除用户
+     * @param id 用户ID
+     * @return 操作结果
+     */
     Result<String> deleteUser(Long id);
 }

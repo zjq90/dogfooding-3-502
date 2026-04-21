@@ -34,6 +34,32 @@
         ORDER BY create_time DESC
     </select>
 
+    <select id="selectListWithPage" resultMap="LogisticsResultMap">
+        SELECT * FROM logistics
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                AND order_no LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+            <if test="shippingStatus != null">
+                AND shipping_status = #{shippingStatus}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*) FROM logistics
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                AND order_no LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+            <if test="shippingStatus != null">
+                AND shipping_status = #{shippingStatus}
+            </if>
+        </where>
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO logistics (order_id, order_no, shipping_company, shipping_no, shipping_status, tracking_info)
         VALUES (#{orderId}, #{orderNo}, #{shippingCompany}, #{shippingNo}, #{shippingStatus}, #{trackingInfo})
